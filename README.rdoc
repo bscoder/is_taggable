@@ -41,6 +41,17 @@ You can also specify an output delimiter:
 
 This example formats the list using standard punctuation and spacing, but doesn't require it from user input.
 
+The delimiter can be a regular expression, in which case an output delimiter is necessary:
+
+  IsTaggable::TagList.delimiter = /[, ]/
+  IsTaggable::TagList.output_delimiter = " "
+  u = User.create :language_list => "english, french"
+  u.language_list.to_s # => "english french"
+  u = User.create :language_list => "english french"
+  u.language_list.to_s # => "english french"
+
+In this example, your users can include commas (which will be ignored) or not.
+
 == Get it
 
   $ sudo gem install is_taggable

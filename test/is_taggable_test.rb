@@ -68,6 +68,16 @@ Expectations do
     output
   end
 
+  expect "english french german" do
+    IsTaggable::TagList.delimiter = /[, ]/
+    IsTaggable::TagList.output_delimiter = ' '
+    p = Post.new :language_list => "english,french, german"
+    output = p.language_list.to_s
+    IsTaggable::TagList.delimiter = ','
+    IsTaggable::TagList.output_delimiter = nil
+    output
+  end
+
   # added - should clean up strings with arbitrary spaces around commas
   expect ["spaces","should","not","matter"] do
     p = Post.new
