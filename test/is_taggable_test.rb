@@ -36,6 +36,12 @@ Expectations do
     p.tag_list
   end
 
+  expect ["something cool"] do
+    p = Post.new :tag_list => "something cool, something  cool"
+    p.save!
+    p.tag_list
+  end
+  
   expect ["english", "french"] do
     p = Post.new :language_list => "english, french"
     p.save!

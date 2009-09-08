@@ -20,6 +20,12 @@ Expectations do
     t.errors[:name]
   end
 
+  expect Tag.new(:name => " \r\n\t", :kind => "stuff").not.to.be.valid?
+
+  expect "tag 1" do
+    Tag.create!(:name => "  tag \t \r1\n", :kind => "stuff").name
+  end
+
   expect Tag.create!(:name => "iamawesome", :kind => "awesomestuff") do
     Tag.find_or_initialize_with_name_like_and_kind("iaMawesome", "awesomestuff")
   end
