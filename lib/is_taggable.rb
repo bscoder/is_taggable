@@ -5,7 +5,7 @@ require 'tagging'
 
 module IsTaggable
   class TagList < Array
-    cattr_accessor :delimiter
+    cattr_accessor :delimiter, :output_delimiter
     @@delimiter = ','
     
     def initialize(list)
@@ -14,7 +14,7 @@ module IsTaggable
     end
     
     def to_s
-      join(@@delimiter)
+      join(@@output_delimiter || @@delimiter)
     end
   end
 

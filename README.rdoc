@@ -33,6 +33,14 @@ A comma is the default tag separator, but this can be easily changed:
 
   IsTaggable::TagList.delimiter = " "
 
+You can also specify an output delimiter:
+
+  IsTaggable::TagList.output_delimiter = ", "
+  u = User.create :language_list => "english,french, german"
+  u.language_list.to_s # => "english, french, german"
+
+This example formats the list using standard punctuation and spacing, but doesn't require it from user input.
+
 == Get it
 
   $ sudo gem install is_taggable
