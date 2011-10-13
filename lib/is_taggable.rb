@@ -9,8 +9,16 @@ module IsTaggable
     @@delimiter = ','
     
     def initialize(list)
-      list = list.is_a?(Array) ? list : list.split(@@delimiter).collect(&:strip).reject(&:blank?)
+      list = list.is_a?(Array) ? list : split_tags(list)
       super
+    end
+
+    def split_tags(list)
+      swt = list
+      mwt = list.scan(/"[^"]+?"/)
+      mwt.each {|v| swt = swt.gsub(v,'')} 
+      result = (swt.split(/,|\s/)+mwt).map{|v| v.gsub('"','')}
+      result.collect(&:strip).reject(&:blank?)
     end
     
     def to_s
