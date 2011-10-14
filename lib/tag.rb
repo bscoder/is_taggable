@@ -17,6 +17,10 @@ class Tag < ActiveRecord::Base
   def name=(name)
     super self.class.collapse_whitespace(name)
   end
+
+  def qname
+    name.match(/\s|,/) ? '"'+name+'"' : name
+  end
   
 protected
   
