@@ -16,9 +16,9 @@ module IsTaggable
     def split_tags(list)
       swt = list
       mwt = list.scan(/"[^"]+?"/)
-      mwt.each {|v| swt = swt.gsub(v,'')} 
-      result = (swt.split(/,|\s/)+mwt).map{|v| v.gsub('"','')}
-      result.collect(&:strip).reject(&:blank?)
+      mwt.each {|v| swt = swt.gsub(v,' ')} 
+      result = (swt.split(/,|\s/)+mwt).map{|v| v.gsub(/[^\'\w\s-]/,'').downcase}
+      result.reject(&:blank?)
     end
     
     def to_s
