@@ -18,7 +18,7 @@ module IsTaggable
       mwt = list.scan(/"[^"]+?"/)
       mwt.each {|v| swt = swt.gsub(v,' ')} 
       result = (swt.split(/,|\s/)+mwt).map{|v| v.gsub(/[^\'\w\s-]/,'').downcase}
-      result.reject(&:blank?)
+      result.reject{|i| (i.blank? || i.size < 2)}
     end
     
     def to_s
