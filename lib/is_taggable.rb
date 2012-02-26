@@ -5,8 +5,9 @@ require 'tagging'
 
 module IsTaggable
   class TagList < Array
-    cattr_accessor :delimiter, :output_delimiter
+    cattr_accessor :delimiter, :output_delimiter, :quotation_mark
     @@delimiter = ','
+    @@guotation_mark = '"'
     
     def initialize(list)
       list = list.is_a?(Array) ? list : split_tags(list)
@@ -14,11 +15,17 @@ module IsTaggable
     end
 
     def split_tags(list)
-      swt = list
-      mwt = list.scan(/"[^"]+?"/)
-      mwt.each {|v| swt = swt.gsub(v,' ')} 
-      result = (swt.split(/,|\s/)+mwt).map{|v| v.gsub(/[^\'\w\s-]/,'').downcase}
-      result.reject{|i| (i.blank? || i.size < 2)}
+      if list.scan(delimiter).length > 0
+        temp_list = list.split(delimiter)
+        result = temp_list.map{ |v| v.gsub(/[^\'\w\s-]/, '').gsub(@@guotation_mark, '').strip.downcase}
+      else
+        temp_list = list
+        sub_list = list.scan(/@@guotation_mark[^"]+?@@guotation_mark/)
+        sub_list.each { |v| temp_list = temp_list.gsub(v, ' ')} 
+        result = (temp_list.split(/,|\s/) + sub_list).map{ |v| v.gsub(/[^\'\w\s-]/, '').downcase}
+      end
+      result.reject!{ |i| (i.blank? || i.size < 2)}
+      result.uniq
     end
     
     def to_s
@@ -59,7 +66,7 @@ module IsTaggable
       end
 
       def get_tag_list(kind)
-        set_tag_list(kind, tags.of_kind(kind).map(&:qname)) if tag_list_instance_variable(kind).nil?
+        set_tag_list(kind, tags.of_kind(kind).map(&:name)) if tag_list_instance_variable(kind).nil?
         tag_list_instance_variable(kind)
       end
 

@@ -13,6 +13,16 @@ Expectations do
     n = Comment.new :tag_list => "is_taggable, has 'tags' by default"
     n.tag_list
   end
+
+  expect ["is_taggable", "has 'tags by default"] do
+    n = Comment.new :tag_list => "is_taggable, has 'tags by default"
+    n.tag_list
+  end
+
+  expect ["is_taggable", "has", "tag's"] do
+    n = Comment.new :tag_list => "is_taggable has tag's"
+    n.tag_list
+  end
   
   expect ["one", "two"] do
     IsTaggable::TagList.delimiter = " "
@@ -90,8 +100,8 @@ Expectations do
   expect ["blank","topics","should be ignored"] do
     p = Post.new
     p.tag_list = "blank, topics, should be ignored, "
-    p.save!
-    p.tags.reload
+    #p.save!
+    #p.tags.reload
     p.tag_list
   end
 
@@ -100,4 +110,5 @@ Expectations do
     p.save!
     p.tags.length
   end
+   
 end
