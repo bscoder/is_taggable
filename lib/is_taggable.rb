@@ -1,101 +1,23 @@
-path = File.expand_path(File.dirname(__FILE__))
-$LOAD_PATH << path unless $LOAD_PATH.include?(path)
-require 'tag'
-require 'tagging'
+require 'is_taggable/active_record_extension'
+require 'is_taggable/mixin'
+require 'is_taggable/tag_list'
 
 module IsTaggable
-  class TagList < Array
-    cattr_accessor :delimiter, :output_delimiter
-    @@delimiter = ','
-    
-    def initialize(list)
-      list = list.is_a?(Array) ? list : split_tags(list)
-      super
-    end
-
-    def split_tags(list)
-      swt = list
-      mwt = list.scan(/"[^"]+?"/)
-      mwt.each {|v| swt = swt.gsub(v,' ')} 
-      result = (swt.split(/,|\s/)+mwt).map{|v| v.gsub(/[^\'\w\s-]/,'').downcase}
-      result.reject{|i| (i.blank? || i.size < 2)}
-    end
-    
-    def to_s
-      join(@@output_delimiter || @@delimiter)
-    end
+  def self.configure_tag_list(style = :standard, options = {})
+    @style = style
+    @options = options
   end
 
-  module ActiveRecordExtension
-    def is_taggable(*kinds)
-      class_inheritable_accessor :tag_kinds
-      self.tag_kinds = kinds.map(&:to_s).map(&:singularize)
-      self.tag_kinds << :tag if kinds.empty?
-
-      include IsTaggable::TaggableMethods
-    end
+  def self.style
+    @style ||= :standard
   end
 
-  module TaggableMethods
-    def self.included(klass)
-      klass.class_eval do
-        include IsTaggable::TaggableMethods::InstanceMethods
+  def self.options
+    @options ||= {}
+  end
 
-        has_many   :taggings, :as      => :taggable, :dependent => :destroy
-        has_many   :tags,     :through => :taggings
-        after_save :save_tags
-
-        tag_kinds.each do |k|
-          define_method("#{k}_list")  { get_tag_list(k) }
-          define_method("#{k}_list=") { |new_list| set_tag_list(k, new_list) }
-        end
-      end
-    end
-
-    module InstanceMethods
-      def set_tag_list(kind, list)
-        tag_list = TagList.new(list)
-        instance_variable_set(tag_list_name_for_kind(kind), tag_list)
-      end
-
-      def get_tag_list(kind)
-        set_tag_list(kind, tags.of_kind(kind).map(&:qname)) if tag_list_instance_variable(kind).nil?
-        tag_list_instance_variable(kind)
-      end
-
-      protected
-        def tag_list_name_for_kind(kind)
-          "@#{kind}_list"
-        end
-        
-        def tag_list_instance_variable(kind)
-          instance_variable_get(tag_list_name_for_kind(kind))
-        end
-
-        def save_tags
-          tag_kinds.each do |tag_kind|
-            delete_unused_tags(tag_kind)
-            add_new_tags(tag_kind)
-          end
-
-          taggings.each(&:save)
-        end
-        
-        def delete_unused_tags(tag_kind)
-          tags.of_kind(tag_kind).each { |t| tags.delete(t) unless get_tag_list(tag_kind).include?(t.name) }
-        end
-
-        def add_new_tags(tag_kind)
-          get_tag_list(tag_kind).each do |tag_name| 
-            # Let Tag normalize the tag name.
-            tag = Tag.find_or_initialize_with_name_like_and_kind(tag_name, tag_kind)
-            tags << tag unless tags.include?(tag)
-          end
-          # Remember the normalized tag names.
-          set_tag_list(tag_kind, tags.of_kind(tag_kind).map(&:name))
-        end
-    end
+  def self.create_tag_list(list_or_string)
+    tag_list_class = "IsTaggable::TagList::#{style.to_s.capitalize}".constantize
+    tag_list_class.new(list_or_string, options)
   end
 end
-
-ActiveRecord::Base.send(:extend, IsTaggable::ActiveRecordExtension)
