@@ -29,7 +29,7 @@ module IsTaggable
     end
     
     def to_s
-      join(@@output_delimiter || @@delimiter)
+      map{|v| v.match(/\s|,/) ? '"' + v + '"' : v}.join(@@output_delimiter || @@delimiter)
     end
   end
 
