@@ -91,8 +91,8 @@ module IsTaggable
             tag = Tag.find_or_initialize_with_name_like_and_kind(tag_name, tag_kind)
             tags << tag unless tags.include?(tag)
           end
-          # Remember the normalized tag names.
-          set_tag_list(tag_kind, tags.of_kind(tag_kind).map(&:name))
+          # BUGGY Remember the normalized tag names. 
+          # set_tag_list(tag_kind, tags.of_kind(tag_kind).map(&:name))
         end
     end
   end
