@@ -7,9 +7,9 @@ module IsTaggable::TagList
         result = str.split(',') # разделяем по ним
       else
         if str.index('"') != nil  # если есть кавычки.
-          quoted_tag_list = str.gsub('"', '').scan(/"[^"]+?"/) #выделяем квотированные теги 
-          ququoted_tag_list.each{ |v| v.gsub!('"', '').strip!} #удаляем кавычки
-          quoted_tag_list.each {|v| str.gsub!(v, '')} # удаляем все квотированные теги
+          quoted_tag_list = str.scan(/"[^"]+?"/) #выделяем квотированные теги 
+          quoted_tag_list.each {|v| str.gsub!(v, '') } # удаляем все квотированные теги
+          quoted_tag_list.each {|v| v.gsub!('"','')} # удаляем все кавычки
           result = (str.split(' ') + quoted_tag_list) #собираем список обратно
         else
           result = str.split(' ') # если ни запятых ни кавычек нет, разделяем просто по пробелам      
