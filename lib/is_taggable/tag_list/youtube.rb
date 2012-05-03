@@ -3,17 +3,15 @@ module IsTaggable::TagList
     protected
 
     def split_tags(str)
-      if str.index(',') != nil # если запятые есть
-        result = str.split(',') # разделяем по ним
+      if str.index(',') != nil   # commas?
+        result = str.split(',')  # - split by 'em
+      elsif str.index('"') != nil  # quotation marks?
+        quoted_tag_list = str.scan(/"[^"]+?"/)
+        quoted_tag_list.each {|v| str.gsub!(v, '') }
+        quoted_tag_list.each {|v| v.gsub!('"', '') }
+        result = (str.split(' ') + quoted_tag_list)
       else
-        if str.index('"') != nil  # если есть кавычки.
-          quoted_tag_list = str.scan(/"[^"]+?"/) #выделяем квотированные теги 
-          quoted_tag_list.each {|v| str.gsub!(v, '') } # удаляем все квотированные теги
-          quoted_tag_list.each {|v| v.gsub!('"','')} # удаляем все кавычки
-          result = (str.split(' ') + quoted_tag_list) #собираем список обратно
-        else
-          result = str.split(' ') # если ни запятых ни кавычек нет, разделяем просто по пробелам      
-        end
+        result = str.split(' ')  # split by spaces
       end
     end
 
@@ -22,7 +20,7 @@ module IsTaggable::TagList
     end
 
     def reject_tag(tag)
-      tag.size<2
+      tag.size < 2
     end
 
     def join_tags(list)
