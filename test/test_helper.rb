@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'activerecord'
+require 'active_record'
 require File.expand_path('../../lib/is_taggable', __FILE__)
 require 'expectations'
 require 'logger'
