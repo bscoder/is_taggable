@@ -6,7 +6,7 @@ There are already many structural changes - I split some files into smaller and
 (hopefully) nicer pieces of code and there will be more changes in the future, but my goal is
 to keep default behaviour compatible with a default configuration of the original gem.
 
-This is a work in progress, and it's not time yet to write documentation, but here's how I see it
+This is a work in progress, and it's not time yet to write documentation, but here's how it works now 
 from the external point of view:
 
   # config/initializers/is_taggable.rb:
