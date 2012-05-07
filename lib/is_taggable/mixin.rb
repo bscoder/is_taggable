@@ -25,7 +25,7 @@ module IsTaggable
       end
 
       def get_tag_list(kind)
-        set_tag_list(kind, tags.of_kind(kind).map(&:qname)) if tag_list_instance_variable(kind).nil?
+        set_tag_list(kind, tags.of_kind(kind).map(&:name)) if tag_list_instance_variable(kind).nil?
         tag_list_instance_variable(kind)
       end
 

@@ -43,14 +43,8 @@ Expectations do
     p.tag_list
   end
 
-  expect ["something", "something"] do
-    p = Post.new :tag_list => "something something"
-    p.tag_list
-  end
-
   expect ["something"] do
     p = Post.new :tag_list => "something something"
-    p.save
     p.tag_list
   end
   

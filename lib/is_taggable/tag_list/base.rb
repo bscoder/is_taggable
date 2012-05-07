@@ -9,7 +9,7 @@ module IsTaggable::TagList
         list = split_tags(tags).map{ |t| normalize_tag(t) }.reject{ |t| reject_tag(t) }
       end
 
-      super(list)
+      super(list.uniq)
     end
 
     def to_s

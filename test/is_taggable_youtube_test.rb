@@ -20,11 +20,19 @@ Expectations do
 # quoted tags in youtube style comment
   expect ["some", "is_taggable has", "quoted tags"] do
     IsTaggable.configure_tag_list(:youtube)
-    n = Comment.new :tag_list => "\"is_taggable has\" some \"  quoted tags\" "
+    n = Comment.new :tag_list => '"is_taggable has" some "  quoted tags" '
     IsTaggable.configure_tag_list
     n.tag_list
   end
 
+# quoted tags in youtube style comment (saved correctly?)
+  expect ["some", "is_taggable has", "quoted tags"] do
+    IsTaggable.configure_tag_list(:youtube)
+    n = Comment.create :tag_list => '"is_taggable has" some "  quoted tags" '
+    n2 = Comment.find(n)
+    IsTaggable.configure_tag_list
+    n2.tag_list
+  end
 # youtube tag with comma delimiter in comment
   expect ["is_taggable", "has 'tags' by default"] do
     IsTaggable.configure_tag_list(:youtube)
