@@ -6,6 +6,7 @@ module IsTaggable
   def self.configure_tag_list(style = :standard, options = {})
     @style = style
     @options = options
+  end
 
   def self.style
     @style ||= :standard
