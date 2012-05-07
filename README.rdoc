@@ -10,10 +10,13 @@ This is a work in progress, and it's not time yet to write documentation, but he
 from the external point of view:
 
   # config/initializers/is_taggable.rb:
-  IsTaggable.configure_tag_list(:standard, :delimiter => ':')  # change default style from 'tag1 tag2 tag3' to 'tag1:tag2:tag3'
+  IsTaggable.configure_tag_list(:standard, :delimiter => ':', :output_delimiter => ' : ')  
+    # - change style from 'tag1 tag2 tag3' to 'tag1 : tag2 : tag3'
   # or:
-  IsTaggable.configure_tag_list(:youtube)  # make default style similar to the one of youtube movies tags, e.g. 'tag1 "several words in tag2" tag3'
+  IsTaggable.configure_tag_list(:youtube)  
+    # - make it to the style of youtube movies tags, e.g. 'tag1 "several words in tag2" tag3'
 
+  # app/models/some_model.rb:
   class SomeModel < ActiveRecord::Base
     is_taggable :tags, :langs
   end
