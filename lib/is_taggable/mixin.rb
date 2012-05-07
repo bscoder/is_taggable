@@ -30,6 +30,7 @@ module IsTaggable
       end
 
       protected
+
         def tag_list_name_for_kind(kind)
           "@#{kind}_list"
         end
