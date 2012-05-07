@@ -16,7 +16,7 @@ module IsTaggable::TagList
     end
 
     def normalize_tag(tag)
-      tag.strip.gsub(/\s+/ , ' ')
+      tag.strip.gsub(/\s+/ , ' ').delete('"')
     end
 
     def reject_tag(tag)
@@ -24,7 +24,7 @@ module IsTaggable::TagList
     end
 
     def join_tags(list)
-      list.map{|t| t.index(' ') ? "\"#{t}\"" : t}
+      list.map{|t| t.index(' ') ? "\"#{t}\"" : t}.join(' ')
     end
   end
 end
