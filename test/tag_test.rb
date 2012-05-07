@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/test_helper'
 
 Expectations do
   expect Tagging do
-    Tag.new.taggings.proxy_reflection.klass
+    Tag.new.taggings.klass
   end
 
   expect Tag.new(:name => "duplicate").not.to.be.valid? do
@@ -14,10 +14,11 @@ Expectations do
   end
 
   expect Tag.new.not.to.be.valid?
-  expect String do
+
+  expect true do
     t = Tag.new
     t.valid?
-    t.errors[:name]
+    !!t.errors[:name]
   end
 
   expect Tag.new(:name => " \r\n\t", :kind => "stuff").not.to.be.valid?

@@ -1,28 +1,26 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{is_taggable}
-  s.version = "0.1.2"
+  s.name        = %q{is_taggable}
+  s.version     = "0.1.2"
+  s.platform    = Gem::Platform::RUBY
 
-  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Daniel Haran", "James Golick", "GiraffeSoft Inc."]
-  s.date = %q{2009-02-16}
-  s.email = %q{chebuctonian@mgmail.com}
-  s.files = ["README.rdoc", "VERSION.yml", "generators/is_taggable_migration", "generators/is_taggable_migration/is_taggable_migration_generator.rb", "generators/is_taggable_migration/templates", "generators/is_taggable_migration/templates/migration.rb", "lib/is_taggable.rb", "lib/tag.rb", "lib/tagging.rb", "test/is_taggable_test.rb", "test/tag_test.rb", "test/tagging_test.rb", "test/test_helper.rb"]
-  s.has_rdoc = true
-  s.homepage = %q{http://github.com/giraffesoft/is_taggable}
-  s.rdoc_options = ["--inline-source", "--charset=UTF-8"]
+  s.required_ruby_version = ">= 1.8.7"
+  s.required_rubygems_version = ">= 1.3.5"
+
+  s.authors     = ["Daniel Haran", "James Golick", "GiraffeSoft Inc."]
+  s.email       = %q{chebuctonian@mgmail.com}
+  s.summary     = %q{tagging that doesn't want to be on steroids. it's skinny and happy to stay that way.}
+
+  s.files       = `git ls-files`.split("\n")
+  s.homepage    = %q{http://github.com/giraffesoft/is_taggable}
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.1}
-  s.summary = %q{tagging that doesn't want to be on steroids. it's skinny and happy to stay that way.}
 
-  if s.respond_to? :specification_version then
-    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
-    s.specification_version = 2
+  s.add_runtime_dependency 'activerecord', '~> 3.0'
 
-    if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
-    else
-    end
-  else
-  end
+  s.add_development_dependency 'rake'
+  s.add_development_dependency 'bundler'
+  s.add_development_dependency 'expectations'
+  s.add_development_dependency 'sqlite3'
+  #s.add_development_dependency 'activerecord-sqlite3-adapter'
 end
