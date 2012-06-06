@@ -20,12 +20,13 @@ module IsTaggable
 
     module InstanceMethods
       def set_tag_list(kind, list)
-        tag_list = IsTaggable.create_tag_list(list)
+        tag_list = List.new([*list], IsTaggable.list_toolbox)
+        tag_list.normalize_tags!
         instance_variable_set(tag_list_name_for_kind(kind), tag_list)
       end
 
       def get_tag_list(kind)
-        set_tag_list(kind, tags.of_kind(kind).map(&:name)) if tag_list_instance_variable(kind).nil?
+        set_tag_list(kind, tags.of_kind(kind).map(&:name).map(&:freeze)) if tag_list_instance_variable(kind).nil?
         tag_list_instance_variable(kind)
       end
 

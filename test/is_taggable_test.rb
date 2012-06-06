@@ -10,11 +10,13 @@ Expectations do
   end
   
   expect ["one", "two"] do
+    IsTaggable.configure_tag_list
     n = Comment.new :tag_list => "one two"
     n.tag_list
   end
 
   expect ["is_taggable", "has", "tag's"] do
+    IsTaggable.configure_tag_list
     n = Comment.new :tag_list => "is_taggable has tag's"
     n.tag_list
   end
