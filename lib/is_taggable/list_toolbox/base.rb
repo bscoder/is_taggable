@@ -4,8 +4,9 @@ module IsTaggable::ListToolbox
     attr_reader :extra_validator
 
     def initialize(options = {})
-      @extra_normalizer = options.delete(:normalize_with)
-      @extra_validator = options.delete(:valid_when)
+      @extra_normalizer = options.delete(:normalize_with).to_proc  if options[:normalize_with]
+      @extra_validator = options.delete(:valid_when).to_proc  if options[:valid_when]
+
       raise ArgumentError.new("Wrong parameters for #{self.class.name}#initialize call: #{options}")  unless options.empty?
     end
 

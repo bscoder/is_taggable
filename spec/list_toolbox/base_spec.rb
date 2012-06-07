@@ -18,10 +18,25 @@ describe IsTaggable::ListToolbox::Base do
       its(:extra_validator) { should be_nil }
     end
 
+    context '...(:normalize_with => :symbol)' do
+      subject { IsTaggable::ListToolbox::Base.new(:normalize_with => :downcase) }
+      its(:extra_normalizer) { should be_instance_of(Proc) }
+      specify("extranormalizer should be lambda of tag.<symbol>") { subject.extra_normalizer.call('TAG').should == 'tag' }
+    end
+
     context '...(:valid_when => lambda)' do
       subject { IsTaggable::ListToolbox::Base.new(:valid_when => callback) }
       its(:extra_normalizer) { should be_nil }
       its(:extra_validator) { should == callback }
+    end
+
+    context '...(:valid_when => :symbol)' do
+      subject { IsTaggable::ListToolbox::Base.new(:valid_when => :frozen?) }
+      its(:extra_validator) { should be_instance_of(Proc) }
+      specify("extravalidator should be lambda of tag.<symbol>") {
+        subject.extra_validator.call('x').should be_false
+        subject.extra_validator.call('x'.freeze).should be_true
+      }
     end
 
     context '...(:wrong_key => :xxx)' do
