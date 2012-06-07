@@ -9,18 +9,18 @@ module IsTaggable::ListToolbox
       raise ArgumentError.new("Wrong parameters for #{self.class.name}#initialize call: #{options}")  unless options.empty?
     end
 
-    # kind of no-op extractor, to be overrided in subclass
+    # kind of no-op extractor, to be overridden in subclass
     def extract(str)
       [str]
     end
 
-    # NOTE: don't override this in a subcluss - work with #prenormalize method instead
+    # NOTE: don't override this in a subclass - work with #prenormalize method instead
     def normalize(tag)
       prenormalized = prenormalize(tag)
       @extra_normalizer ? @extra_normalizer.call(prenormalized) : prenormalized
     end
 
-    # NOTE: don't override this in a subcluss - work with #prevalidated? method instead
+    # NOTE: don't override this in a subclass - work with #prevalidated? method instead
     def valid?(tag)
       prevalidated = prevalidated?(tag)
       @extra_validator ? @extra_validator.call(tag) && prevalidated : prevalidated
