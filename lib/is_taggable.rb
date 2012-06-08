@@ -1,4 +1,4 @@
-require 'is_taggable/active_record_extension'
+require 'is_taggable/model_extension'
 require 'is_taggable/mixin'
 require 'is_taggable/list'
 
@@ -27,4 +27,8 @@ module IsTaggable
     tag_list_class = "IsTaggable::TagList::#{style.to_s.capitalize}".constantize
     tag_list_class.new(list_or_string, options)
   end
+end
+
+ActiveSupport.on_load(:active_record) do
+  extend IsTaggable::ModelExtension
 end
