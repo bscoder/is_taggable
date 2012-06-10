@@ -1,8 +1,13 @@
-require 'is_taggable/model_extension'
-require 'is_taggable/mixin'
-require 'is_taggable/list'
+require 'active_support'
+require 'is_taggable/active_record_extension'
+
+autoload :Tag,     'tag'
+autoload :Tagging, 'tagging'
 
 module IsTaggable
+  autoload :Mixin,   'is_taggable/mixin'
+  autoload :List,    'is_taggable/list'
+
   module ListToolbox
     autoload :Base,     'is_taggable/list_toolbox/base'
     autoload :Standard, 'is_taggable/list_toolbox/standard'
@@ -30,5 +35,5 @@ module IsTaggable
 end
 
 ActiveSupport.on_load(:active_record) do
-  extend IsTaggable::ModelExtension
+  extend IsTaggable::ActiveRecordExtension
 end

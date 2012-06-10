@@ -1,6 +1,3 @@
-require 'tag'
-require 'tagging'
-
 module IsTaggable
   module Mixin
     def self.included(klass)

@@ -1,9 +1,7 @@
 $:.unshift File.expand_path('../lib', __FILE__)
 
-require 'active_record'
 require 'is_taggable'
-
-Dir['./spec/support/**/*.rb'].each { |f| require f }
+autoload :ActiveRecord, 'support/active_record'
 
 RSpec.configure do |conf|
   conf.formatter = :documentation

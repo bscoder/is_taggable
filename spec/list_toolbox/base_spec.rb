@@ -83,7 +83,7 @@ describe IsTaggable::ListToolbox::Base do
     end
 
     context "[the :valid_when option was set to valid when size != 1]" do
-      subject { IsTaggable::ListToolbox::Base.new(:valid_when => lambda{ |t| t.try(:size) != 1 }) }
+      subject { IsTaggable::ListToolbox::Base.new(:valid_when => lambda{ |t| (t || '').size != 1 }) }
 
       context "when tag is emtpy string" do
         it("should reject") { subject.valid?('').should be_false }

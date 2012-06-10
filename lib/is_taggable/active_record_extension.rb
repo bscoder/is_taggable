@@ -1,5 +1,5 @@
 module IsTaggable
-  module ModelExtension
+  module ActiveRecordExtension
     def is_taggable(*kinds)
       class_attribute :tag_kinds
 
