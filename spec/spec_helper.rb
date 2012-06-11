@@ -1,7 +1,6 @@
 $:.unshift File.expand_path('../lib', __FILE__)
 
 require 'is_taggable'
-autoload :ActiveRecord, 'support/active_record'
 
 RSpec.configure do |conf|
   conf.formatter = :documentation
@@ -13,4 +12,14 @@ RSpec.configure do |conf|
   conf.filter_run :focus  => true
   conf.filter_run_excluding :broken => true
   conf.run_all_when_everything_filtered = true
+
+  conf.before(:all, :with_active_record) do |example|
+    require 'support/active_record'
+  end
+  conf.around(:each, :with_active_record) do |example|
+    ActiveRecord::Base.transaction do
+      example.run
+      raise ActiveRecord::Rollback
+    end
+  end
 end

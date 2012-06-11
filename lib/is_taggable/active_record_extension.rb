@@ -1,11 +1,10 @@
 module IsTaggable
   module ActiveRecordExtension
     def is_taggable(*kinds)
-      class_attribute :tag_kinds
+      kinds = (kinds.presence || [:tags]).map(&:to_s).map(&:singularize)
 
-      kinds = [:tags]  if kinds.empty?
-      inherited_kinds = tag_kinds || []
-      self.tag_kinds = inherited_kinds | kinds.map(&:to_s).map(&:singularize)
+      # dynamically def self.tag_kinds - return current kinds, merged with kinds from super:
+      singleton_class.send(:define_method, :tag_kinds) { kinds | [* defined?(super) && super() ] }
 
       include IsTaggable::Mixin
     end

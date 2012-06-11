@@ -27,6 +27,10 @@ module IsTaggable
         tag_list_instance_variable(kind)
       end
 
+      def tag_kinds
+        self.class.tag_kinds
+      end
+
       protected
 
         def tag_list_name_for_kind(kind)
