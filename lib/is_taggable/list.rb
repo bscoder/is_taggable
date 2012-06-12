@@ -1,8 +1,8 @@
 module IsTaggable
 
   class List < Array
-    def initialize(list, toolbox = ListToolbox::Standard.new)
-      @tools = toolbox
+    def initialize(list, toolbox = nil)
+      @tools = toolbox || ListToolbox::Standard.new
       super(list)
     end
 

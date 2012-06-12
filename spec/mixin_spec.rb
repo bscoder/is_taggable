@@ -12,12 +12,12 @@ describe 'IsTaggable::Mixin', :with_active_record do
 
   subject { TaggableEntity.new }
 
-  it "should have #<kind>_list method for each of tag_kinds" do
-    subject.should respond_to(:tag_list)
-    subject.should respond_to(:language_list)
-  end
-
   describe "#<kind>_list" do
+    it "should be defined #<kind>_list method for each of tag_kinds" do
+      subject.should respond_to(:tag_list)
+      subject.should respond_to(:language_list)
+    end
+
     it "should return [] for a new instance" do
       subject.tag_list.should == []
     end
@@ -36,10 +36,49 @@ describe 'IsTaggable::Mixin', :with_active_record do
     end
   end
 
-  describe "#<kind>_list=" do
+  describe "#<kind>_list =" do
+    context "str" do
+      it "should extract tag names from str and assign them to the list" do
+        subject.tag_list = "abc def"
+        subject.tag_list.should == ['abc', 'def']
+      end
+
+      it "should not save tags in database" do
+        subject.tag_list = 'tag'
+        Tag.where(:name => 'tag', :kind => 'tag').should_not exist
+      end
+    end
+
+    context "[list of tag names]" do
+      it "should assign list of tag names to the list" do
+        subject.tag_list = ['abc', 'def']
+        subject.tag_list.should == ['abc', 'def']
+      end
+
+      it "should not save tags in database" do
+        subject.tag_list = ['tag']
+        Tag.where(:name => 'tag', :kind => 'tag').should_not exist
+      end
+    end
   end
 
   describe "#tags" do
+    it "should return list of associated Tags objects" do
+      subject.tags.klass.should == Tag
+    end
   end
 
+  describe "#taggings" do
+    it "should return list of associated Tagging objects" do
+      subject.taggings.klass.should == Tagging
+    end
+  end
+
+  context "on after_save event" do
+    it "should save tags" do
+      subject.tag_list = 'tag'
+      subject.save
+      Tag.where(:name => 'tag', :kind => 'tag').should exist
+    end
+  end
 end
