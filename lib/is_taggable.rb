@@ -27,11 +27,6 @@ module IsTaggable
   def list_toolbox
     @list_toolbox
   end
-
-  def create_tag_list(list_or_string)
-    tag_list_class = "IsTaggable::TagList::#{style.to_s.capitalize}".constantize
-    tag_list_class.new(list_or_string, options)
-  end
 end
 
 ActiveSupport.on_load(:active_record) do
