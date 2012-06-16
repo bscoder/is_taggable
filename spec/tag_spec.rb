@@ -8,6 +8,15 @@ describe 'Tag', :with_active_record do
     @tag3 = Tag.create!(:name => 'x', :kind => 'y') 
   end
 
+  describe "on after_destroy event" do
+    it "should destroy dependent Tagging objects" do
+      Tagging.create!(:tag => @tag1, :taggable => @tag2)  # tag as taggable object - weird but possible
+      Tagging.count.should == 1
+      @tag1.destroy
+      Tagging.all.should be_empty
+    end
+  end
+
   describe ".create" do
     it "should not save without name" do
       Tag.create(:name => '').should_not be_persisted
