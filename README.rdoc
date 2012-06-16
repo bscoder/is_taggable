@@ -1,13 +1,11 @@
 = ABOUT THE FORK
 
-I'd like to make the gem a bit more flexible and modern (rails 3) without sacrificing its maintainability.
+I'd like to improve the gem by making it more modern (rails 3, rspec, etc), flexible and maintainable.
 
-There are already many structural changes - I split some files into smaller and
-(hopefully) nicer pieces of code and there will be more changes in the future, but my goal is
-to keep default behaviour compatible with a default configuration of the original gem.
+There are a lot of internal changes, but my goal is to keep default behaviour compatible with 
+a default configuration of the original gem.
 
-This is a work in progress, and it's not time yet to write documentation, but here's how it works now 
-from the external point of view:
+More documentation will follow, but for now, here's how you can configure and use this fork:
 
   # config/initializers/is_taggable.rb:
   IsTaggable.configure_tag_list(:standard, :delimiter => ':', :output_delimiter => ' : ')
