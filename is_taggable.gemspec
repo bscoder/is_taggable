@@ -20,9 +20,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency 'rake'
   s.add_development_dependency 'bundler'
-  s.add_development_dependency 'expectations'
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency 'rspec', '~> 2.9'
   s.add_development_dependency 'mocha'
-  #s.add_development_dependency 'activerecord-sqlite3-adapter'
 end

@@ -1,6 +1,5 @@
 require 'spec_helper'
 
-
 describe 'IsTaggable::Mixin', :with_active_record do
 
   before(:all) do
@@ -79,6 +78,15 @@ describe 'IsTaggable::Mixin', :with_active_record do
       subject.tag_list = 'tag'
       subject.save
       Tag.where(:name => 'tag', :kind => 'tag').should exist
+    end
+  end
+
+  context "on after_destroy event" do
+    it "should destroy dependent Tagging objects" do
+      taggable_entity = TaggableEntity.create(:tag_list => 't1 t2')
+      Tagging.count.should == 2
+      taggable_entity.destroy
+      Tagging.count.should == 0
     end
   end
 end
