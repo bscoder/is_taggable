@@ -23,4 +23,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'sqlite3'
   s.add_development_dependency 'rspec', '~> 2.9'
   s.add_development_dependency 'mocha'
+  s.add_development_dependency 'simplecov'
+
 end
