@@ -1,8 +1,6 @@
 = ABOUT THE FORK
 
-I'd like to improve the gem by making it more modern (rails 3, rspec, etc), flexible and maintainable.
-
-There are a lot of internal changes, but my goal is to keep default behaviour compatible with 
+There are a lot of internal changes, but default behaviour should be compatible with 
 a default configuration of the original gem.
 
 More documentation will follow, but for now, here's how you can configure and use this fork:
