@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.homepage    = %q{http://github.com/giraffesoft/is_taggable}
   s.require_paths = ["lib"]
 
-  s.add_runtime_dependency 'activerecord', '~> 3.0'
+  s.add_runtime_dependency 'activerecord', '> 3.0'
 
   s.add_development_dependency 'rake'
   s.add_development_dependency 'bundler'
